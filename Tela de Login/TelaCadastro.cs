@@ -11,80 +11,34 @@ namespace Tela_de_Login
         public TelaCadastro()
         {
             InitializeComponent();
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnCadastrar_Click(object sender, EventArgs e)
         {
-            string nome = txtNome.Text;
-            string email = txtEmailCad.Text;
-            string senha = txtSenhaCad.Text;
-
-            // Verificar se algum departamento foi selecionado
+            if (string.IsNullOrWhiteSpace(txtNome.Text))
+            {
+                MessageBox.Show("O campo Nome é obrigatório.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNome.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtEmailCad.Text))
+            {
+                MessageBox.Show("O campo Email é obrigatório.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmailCad.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtSenhaCad.Text))
+            {
+                MessageBox.Show("O campo Senha é obrigatório.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSenhaCad.Focus();
+                return;
+            }
             if (checkedListBox1.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Selecione pelo menos um departamento.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Selecione pelo menos um Departamento.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                checkedListBox1.Focus();
                 return;
-            }
-
-            // Obter o departamento selecionado (pegamos o primeiro selecionado)
-            string departamentoSelecionado = checkedListBox1.CheckedItems[0].ToString();
-            int idDepartamento = ObterIdDepartamento(departamentoSelecionado);
-
-            if (idDepartamento == 0)
-            {
-                MessageBox.Show("Departamento selecionado é inválido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            try
-            {
-                using (var conexao = new NpgsqlConnection(conexaoString))
-                {
-                    conexao.Open();
-
-                    // Verificar se o email já está cadastrado
-                    string verificaEmail = "SELECT COUNT(*) FROM funcionario WHERE email = @email";
-                    using (var comandoVerifica = new NpgsqlCommand(verificaEmail, conexao))
-                    {
-                        comandoVerifica.Parameters.AddWithValue("@email", email);
-                        int count = Convert.ToInt32(comandoVerifica.ExecuteScalar());
-
-                        if (count > 0)
-                        {
-                            MessageBox.Show("Este email já está cadastrado.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                    }
-
-                    // Inserir novo funcionário
-                    string query = @"
-                        INSERT INTO funcionario (nome, email, senha, id_departamento)
-                        VALUES (@nome, @email, @senha, @id_departamento)
-                        RETURNING id_funcionario";
-
-                    using (var comando = new NpgsqlCommand(query, conexao))
-                    {
-                        comando.Parameters.AddWithValue("@nome", nome);
-                        comando.Parameters.AddWithValue("@email", email);
-                        comando.Parameters.AddWithValue("@senha", senha);
-                        comando.Parameters.AddWithValue("@id_departamento", idDepartamento);
-
-                        int idFuncionario = (int)comando.ExecuteScalar();
-
-                        MessageBox.Show($"Cadastro realizado com sucesso!\nID do funcionário: {idFuncionario}",
-                                        "Sucesso",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
-
-                        // Limpar campos após cadastro
-                        LimparCampos();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao cadastrar: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -132,7 +86,30 @@ namespace Tela_de_Login
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Pode ser usado para validação do campo nome se necessário
+           
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnCancelarCadastro_Click(object sender, EventArgs e)
+        {
+            var TelaLogin = new Login();
+                TelaLogin.Show();
+
+            this.Close();
+        }
+
+        private void txtNome_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TelaCadastro_Load(object sender, EventArgs e)
+        {
+           
         }
     }
 }

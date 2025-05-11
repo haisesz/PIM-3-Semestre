@@ -21,5 +21,18 @@ namespace Tela_de_Login
         {
 
         }
+
+        private void BtnFecharCham_Click(object sender, EventArgs e)
+        {
+            var TelaLogin = new Login();
+            TelaLogin.Show();
+
+            this.Close();
+        }
+
+        private void BtnEnviar_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Chamado enviado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
