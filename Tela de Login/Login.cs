@@ -112,5 +112,10 @@ namespace Tela_de_Login
 
             this.Visible = false;
         }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
