@@ -1,29 +1,35 @@
-Como usar o programa:
+# Sistema de Chamados - PIM
 
-PostgreSQL instalado e em execução localmente
+Este projeto é um sistema básico de gerenciamento de chamados com autenticação de usuários, utilizando C# com PostgreSQL.
 
-Visual Studio (ou outro ambiente de desenvolvimento C#)
+---
 
-Pacote Npgsql instalado (via NuGet)
+## ✅ Requisitos
 
-Configuração do Banco de Dados
-Antes de iniciar o programa, você precisa configurar o banco de dados PostgreSQL:
+Antes de executar o projeto, certifique-se de ter:
 
-Crie um banco de dados chamado pim.
+- PostgreSQL instalado e em execução localmente
+- Visual Studio (ou outro ambiente de desenvolvimento C#)
+- Pacote `Npgsql` instalado (via NuGet)
 
-Execute os scripts SQL disponíveis na pasta scripts/ do repositório.
+---
 
-Eles criam as tabelas departamento, funcionario e chamado.
+## ⚙️ Configuração do Banco de Dados
 
-Também inserem os departamentos iniciais: RH, Produção e Gerência.
+1. Crie um banco de dados chamado `pim` no PostgreSQL.
+2. Execute os scripts SQL disponíveis na pasta `scripts/` do repositório.
+   - Eles criam as tabelas `departamento`, `funcionario` e `chamado`.
+   - Também inserem os departamentos iniciais: **RH**, **Produção** e **Gerência**.
 
-Certifique-se de que a string de conexão nos arquivos .cs aponte corretamente para seu banco.
+---
 
-A padrão utilizada é:
-``
-Host=localhost;Port=5432;Database=pim;User ID=postgres;Password=belofode``
+## 🔌 String de Conexão
 
-Você pode ajustar conforme suas credenciais no PostgreSQL.
+A string de conexão agora está centralizada na classe `Conexao.cs`:
 
-
-
+```csharp
+public static class Conexao
+{
+    public static string ConexaoString { get; } =
+        "Host=localhost;Port=5432;Database=pim;User ID=postgres;Password=belofode";
+}
